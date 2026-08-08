@@ -1,0 +1,432 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+    --color-accent: #146C94;
+    --color-accent-dark: #0F5470;
+    --color-accent-light: #E4F1F7;
+    --color-bg-start: #FFF3D6;
+    --color-bg-mid: #F7C873;
+    --color-bg-end: #E8A53D;
+    --color-text: #26313A;
+    --color-text-muted: #6B7680;
+    --color-card: #FFFFFF;
+    --color-border: #ECECEC;
+    --shadow-card: 0 24px 60px -20px rgba(191, 129, 28, 0.35), 0 8px 24px -12px rgba(20, 108, 148, 0.18);
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-pill: 999px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    color: var(--color-text);
+}
+
+body{
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--color-bg-start) 0%, var(--color-bg-mid) 55%, var(--color-bg-end) 100%);
+    padding: 3rem 1rem;
+}
+
+/* O React monta tudo dentro dessa div (#root, criada automaticamente
+   pelo Vite). Sem largura definida aqui, filhos com width em % (como o
+   .todo-container) não têm "100% de quê" calcular — por isso o card
+   ficava do tamanho do texto em vez do tamanho da tela. */
+#root{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* CONTAINER */
+
+.todo-container{
+    width: 100%;
+    max-width: 1440px;
+    min-width: 350px;
+    background-color: var(--color-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.todo-container header{
+    padding: 2rem 1.75rem 1.25rem;
+    text-align: center;
+}
+
+.todo-container header h1{
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.todo-container header .subtitle{
+    margin-top: .35rem;
+    font-size: .85rem;
+    color: var(--color-text-muted);
+}
+
+/* PROGRESSO */
+
+.todo-progress{
+    padding: 0 1.75rem 1.25rem;
+}
+
+.todo-progress .progress-label{
+    display: flex;
+    justify-content: space-between;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: .5rem;
+}
+
+.todo-progress .progress-label span:last-child{
+    color: var(--color-accent);
+}
+
+.progress-track{
+    width: 100%;
+    height: 8px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent-light);
+    overflow: hidden;
+}
+
+.progress-fill{
+    height: 100%;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg, var(--color-accent), #1E97C9);
+    transition: width .35s ease;
+}
+
+/* FORMULÁRIOS */
+
+#todo-form, #edit-form{
+    padding: 1.25rem 1.75rem;
+    border-top: 1px solid var(--color-border);
+}
+
+#todo-form p, #edit-form p{
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: .6rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.form-control{
+    display: flex;
+    gap: .5rem;
+}
+
+#todo-input, #edit-input{
+    flex: 1;
+    padding: .7rem 1rem;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--color-border);
+    font-size: .9rem;
+    outline: none;
+    background-color: #FAFAFA;
+    transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+#todo-input:focus, #edit-input:focus{
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px var(--color-accent-light);
+    background-color: #fff;
+}
+
+/* BOTÕES */
+
+button{
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--color-accent-light);
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform .15s ease, background-color .2s ease, color .2s ease;
+}
+
+button:hover{
+    background-color: var(--color-accent);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+button:active{
+    transform: translateY(0) scale(.94);
+}
+
+button i, button svg{
+    color: inherit !important;
+    pointer-events: none;
+    font-size: 1rem;
+}
+
+.finish-todo svg{
+    stroke: currentColor !important;
+    fill: none !important;
+}
+
+#cancel-edit-btn{
+    width: auto;
+    height: auto;
+    padding: .55rem 1.1rem;
+    border-radius: var(--radius-pill);
+    margin-top: .85rem;
+    font-size: .8rem;
+    font-weight: 600;
+    background-color: transparent;
+    color: var(--color-text-muted);
+    border: 1.5px solid var(--color-border);
+}
+
+#cancel-edit-btn:hover{
+    background-color: #F5F5F5;
+    color: var(--color-text);
+    transform: none;
+}
+
+/* LISTA */
+
+#todo-list{
+    padding: .75rem 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+#todo-list::-webkit-scrollbar{
+    width: 6px;
+}
+
+#todo-list::-webkit-scrollbar-thumb{
+    background-color: var(--color-border);
+    border-radius: var(--radius-pill);
+}
+
+.todo{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .7rem .85rem;
+    border-radius: var(--radius-md);
+    background-color: #FAFAFA;
+    animation: todo-in .25s ease;
+    transition: background-color .25s ease, box-shadow .25s ease;
+}
+
+@keyframes todo-in{
+    from{ opacity: 0; transform: translateY(4px); }
+    to{ opacity: 1; transform: translateY(0); }
+}
+
+.todo:hover{
+    background-color: #F1F1F1;
+}
+
+.todo h3{
+    flex: 1;
+    font-size: .9rem;
+    font-weight: 500;
+    word-break: break-word;
+    transition: color .25s ease;
+}
+
+.done{
+    background-color: var(--color-accent);
+    box-shadow: 0 10px 24px -12px rgba(20, 108, 148, 0.55);
+}
+
+.done:hover{
+    background-color: var(--color-accent-dark);
+}
+
+.done h3{
+    color: #fff;
+    text-decoration: line-through;
+    font-style: normal;
+    font-weight: 400;
+    opacity: .85;
+}
+
+.done button{
+    background-color: rgba(255, 255, 255, .18);
+    color: #fff;
+}
+
+.done button:hover{
+    background-color: rgba(255, 255, 255, .32);
+}
+
+/* ESTADO VAZIO */
+
+.todo-empty{
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    color: var(--color-text-muted);
+}
+
+.todo-empty i{
+    font-size: 1.8rem;
+    color: var(--color-border);
+    margin-bottom: .6rem;
+    display: block;
+}
+
+.todo-empty p{
+    font-size: .85rem;
+}
+
+.hide{
+    display: none;
+}
+
+/* MODAL DE CONFIRMAÇÃO */
+
+.confirm-overlay{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(20, 20, 25, .55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    z-index: 999;
+    animation: overlay-in .18s ease;
+}
+
+@keyframes overlay-in{
+    from{ opacity: 0; }
+    to{ opacity: 1; }
+}
+
+.confirm-box{
+    width: 100%;
+    max-width: 340px;
+    background-color: var(--color-card);
+    border-radius: 20px;
+    padding: 2rem 1.75rem 1.75rem;
+    text-align: center;
+    box-shadow: 0 30px 70px -20px rgba(0, 0, 0, .45);
+    animation: box-in .2s cubic-bezier(.2, .9, .3, 1.2);
+}
+
+@keyframes box-in{
+    from{ opacity: 0; transform: translateY(12px) scale(.95); }
+    to{ opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.confirm-icon{
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1.1rem;
+    border-radius: 50%;
+    background-color: #FDECEC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-icon i{
+    font-size: 1.4rem;
+    color: #E5484D;
+}
+
+.confirm-box h2{
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: .5rem;
+}
+
+.confirm-box p{
+    font-size: .85rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    word-break: break-word;
+}
+
+.confirm-actions{
+    display: flex;
+    gap: .6rem;
+}
+
+.confirm-actions button{
+    flex: 1;
+    width: auto;
+    height: auto;
+    border-radius: var(--radius-pill);
+    padding: .7rem 1rem;
+    font-size: .85rem;
+    font-weight: 600;
+    gap: .4rem;
+}
+
+.confirm-actions button i{
+    font-size: .8rem;
+    color: inherit !important;
+}
+
+.confirm-cancel{
+    background-color: #F0F0F0;
+    color: var(--color-text-muted);
+}
+
+.confirm-cancel:hover{
+    background-color: #E4E4E4;
+    color: var(--color-text);
+    transform: none;
+}
+
+.confirm-delete{
+    background-color: #E5484D;
+    color: #fff;
+}
+
+.confirm-delete:hover{
+    background-color: #C93A3E;
+    transform: none;
+}
+
+/* RODAPÉ */
+
+footer{
+    text-align: center;
+    padding: 1.25rem 1rem 0;
+    margin-top: 1.25rem;
+}
+
+footer p{
+    font-size: .75rem;
+    color: rgba(38, 49, 58, .65);
+    font-style: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+}
+
+footer svg{
+    fill: rgba(38, 49, 58, .65) !important;
+}
